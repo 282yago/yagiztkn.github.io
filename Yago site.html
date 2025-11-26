@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yago | Kişisel Web Sitesi</title>
+
+<style>
+/* ---------- RENK DEĞERLERİ ---------- */
+:root {
+    --bg: #0c0c0c;
+    --card: #1a1a1a;
+    --text: #e5e5e5;
+    --accent: #4f8cff;
+    --accent-glow: rgba(79,140,255,0.5);
+}
+
+/* ---------- GENEL ---------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ---------- NAVBAR (MASAÜSTÜ) ---------- */
+nav {
+    background: #111;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #222;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+nav .logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+nav .menu {
+    display: flex;
+    gap: 20px;
+}
+
+nav .menu a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+}
+
+nav .menu a:hover {
+    color: var(--accent);
+    text-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* ---------- HAMBURGER MENÜ (MOBİL) ---------- */
+.menu-toggle {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+    color: var(--accent);
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: #111;
+    padding: 15px;
+    border-bottom: 1px solid #222;
+}
+
+.mobile-menu a {
+    color: var(--text);
+    padding: 10px 0;
+    font-size: 1.1rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.mobile-menu a:hover {
+    color: var(--accent);
+}
+
+/* ---------- İÇERİK ---------- */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.card {
+    background: var(--card);
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #242424;
+    margin-bottom: 25px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    animation: fade .4s;
+}
+
+/* ---------- TABS ---------- */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.tab-btn {
+    padding: 10px 16px;
+    background: #121212;
+    border: 1px solid #222;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text);
+    transition: .25s;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tab-btn.active {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ---------- KOD BLOĞU ---------- */
+.code-block {
+    background: #0d0d0f;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #252525;
+    font-family: "Fira Code", monospace;
+    overflow-x: auto;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    text-align: center;
+    opacity: .5;
+    font-size: .9rem;
+    padding: 40px 0;
+}
+
+/* ANİMASYON */
+@keyframes fade {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- MOBİL UYUMLULUK ---------- */
+@media(max-width: 768px) {
+    nav .menu { display: none; }
+    .menu-toggle { display: block; }
+}
+</style>
+
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">YAGO</div>
+
+    <!-- Masaüstü Menü -->
+    <div class="menu">
+        <a class="nav-link" data-tab="hakkimda">Hakkımda</a>
+        <a class="nav-link" data-tab="projeler">Projeler</a>
+        <a class="nav-link" data-tab="iletisim">İletişim</a>
+    </div>
+
+    <!-- Mobil Menü Butonu -->
+    <div class="menu-toggle">☰</div>
+</nav>
+
+<!-- Mobil Açılır Menü -->
+<div class="mobile-menu">
+    <a class="mobile-link" data-tab="hakkimda">Hakkımda</a>
+    <a class="mobile-link" data-tab="projeler">Projeler</a>
+    <a class="mobile-link" data-tab="iletisim">İletişim</a>
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <!-- Sekme Butonları -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="hakkimda">Hakkımda</button>
+            <button class="tab-btn" data-tab="projeler">Projeler</button>
+            <button class="tab-btn" data-tab="iletisim">İletişim</button>
+        </div>
+
+        <!-- HAKKIMDA — ORİJİNAL METİN -->
+        <div id="hakkimda" class="tab-content active">
+            <h2>Hakkımda</h2>
+
+            <p>
+                Ben Yağız Tekin, şu anda Bandırma 17 Eylül Üniversitesi’nde 1. sınıf öğrencisiyim.
+                Eğitim hayatım boyunca teknolojiye ve bilgisayar bilimlerine duyduğum ilgi
+                beni yazılım dünyasına yönlendirdi.
+            </p>
+
+            <p>
+                Şu anda aktif olarak C# programlama diliyle ilgileniyor ve bu alandaki bilgilerimi 
+                sürekli olarak geliştirmek için çalışıyorum. Yazılım geliştirme sürecinde 
+                analitik düşünme yeteneğim ve problem çözme becerilerim ön plana çıkar.
+            </p>
+
+            <p>
+                Hedefim, yazılım alanında kendimi daha da geliştirerek gelecekte başarılı projelere 
+                imza atmak. Kendimi sürekli geliştirmek, yeni teknolojiler öğrenmek ve öğrendiklerimi 
+                pratiğe dökmek benim için büyük bir motivasyon kaynağıdır.
+            </p>
+
+            <p>
+                Hem akademik hem de kişisel gelişimime önem vererek yoluma devam ediyorum.
+            </p>
+        </div>
+
+        <!-- PROJELER -->
+        <div id="projeler" class="tab-content">
+    <h2>Projeler</h2>
+
+    <div class="card" style="margin-top: 20px; background:#131313; border:1px solid #222;">
+        <h3 style="color: var(--accent); margin-top:0;">C# İngilizce – Türkçe Sözlük</h3>
+        <p>C# geliştiricileri için hazırladığım kapsamlı İngilizce–Türkçe terim sözlüğü.</p>
+
+        <a href="sozluk.html" 
+           target="_blank" 
+           style="color:white; background:var(--accent); padding:10px 15px; 
+                  display:inline-block; border-radius:8px; font-weight:600; 
+                  text-decoration:none; box-shadow:0 0 10px var(--accent-glow);">
+            Sözlüğü Aç
+        </a>
+
+
+        <!-- İLETİŞİM -->
+        <div id="iletisim" class="tab-content">
+            <h2>İletişim</h2>
+            <p><b>Email:</b> <a href="mailto:yagiz1905tekin@gmail.com" style="color:var(--accent);">yagiz1905tekin@gmail.com</a></p>
+            <p><b>Instagram:</b> <a href="https://instagram.com/yagiztkn_" target="_blank" style="color:var(--accent);">@yagiztkn_</a></p>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>© 2025 Yago | Kişisel Web Sitesi</footer>
+
+<script>
+/* -------- HAMBURGER MENÜ -------- */
+const toggle = document.querySelector(".menu-toggle");
+const mobileMenu = document.querySelector(".mobile-menu");
+
+toggle.addEventListener("click", () => {
+    mobileMenu.style.display =
+        mobileMenu.style.display === "flex" ? "none" : "flex";
+});
+
+/* -------- TABS -------- */
+const btns = document.querySelectorAll(".tab-btn");
+const pages = document.querySelectorAll(".tab-content");
+const mobileLinks = document.querySelectorAll(".mobile-link");
+const navLinks = document.querySelectorAll(".nav-link");
+
+function showTab(tab) {
+    btns.forEach(b => b.classList.remove("active"));
+    pages.forEach(p => p.classList.remove("active"));
+
+    document.querySelector(`[data-tab="${tab}"]`).classList.add("active");
+    document.getElementById(tab).classList.add("active");
+}
+
+/* Sekme butonları */
+btns.forEach(btn => {
+    btn.addEventListener("click", () => showTab(btn.dataset.tab));
+});
+
+/* Mobil menü */
+mobileLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        showTab(link.dataset.tab);
+        mobileMenu.style.display = "none";
+    });
+});
+
+/* NAVBARDAN TAB GEÇİŞİ */
+navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        showTab(link.dataset.tab);
+    });
+});
+</script>
+
+</body>
+</html>
