@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAGO | Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --text:#fff;
+    --bg1:#0b0b0e;
+    --bg2:#111118;
+    --card:rgba(26,26,26,.75);
+    --accent:#4f8cff;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    font-family:Inter,sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at top right,#1b2440,transparent 40%),
+        radial-gradient(circle at bottom left,#2a1b3d,transparent 45%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+}
+
+/* NAV */
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:25px 50px;
+}
+
+.logo{
+    font-family:Orbitron,sans-serif;
+    font-size:1.6rem;
+    letter-spacing:4px;
+    cursor:pointer;
+}
+
+.menu{display:flex;gap:25px}
+.menu a{cursor:pointer}
+
+/* HERO */
+.hero{
+    min-height:calc(100vh - 90px);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:80px;
+}
+
+.hero-left{max-width:650px}
+.welcome{opacity:.6;margin-bottom:20px}
+
+.hero-left h1{
+    font-size:5rem;
+    background:linear-gradient(90deg,#4f8cff,#9d4fff,#4f8cff);
+    background-size:200%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:grad 6s linear infinite;
+    filter:drop-shadow(0 0 25px rgba(79,140,255,.45));
+}
+@keyframes grad{to{background-position:200%}}
+
+.title{font-size:1.4rem;margin:25px 0 50px}
+
+.cursor{
+    display:inline-block;
+    width:2px;
+    height:1.2em;
+    background:#fff;
+    margin-left:6px;
+    animation:blink 1s infinite;
+}
+@keyframes blink{50%{opacity:0}}
+
+.hero-buttons{display:flex;gap:25px}
+
+.hero-buttons button,.back-btn{
+    background:none;
+    border:1px solid #fff;
+    color:#fff;
+    padding:16px 30px;
+    cursor:pointer;
+    transition:.3s;
+}
+.hero-buttons button:hover,.back-btn:hover{
+    background:#fff;
+    color:#000;
+}
+
+/* PROFILE */
+.profile{
+    width:240px;
+    height:240px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid var(--accent);
+    box-shadow:0 0 45px rgba(79,140,255,.45);
+}
+
+/* CONTENT */
+.container{
+    max-width:900px;
+    margin:80px auto;
+    padding:20px;
+    display:none;
+}
+.card{
+    background:var(--card);
+    backdrop-filter:blur(10px);
+    padding:40px;
+    border-radius:18px;
+}
+
+/* PROJECT ANIMATION */
+.soon{
+    font-size:1.2rem;
+    animation:pulse 1.5s infinite;
+}
+.dots::after{
+    content:"";
+    animation:dots 1.6s infinite;
+}
+@keyframes pulse{
+    50%{opacity:.6}
+}
+@keyframes dots{
+    0%{content:""}
+    33%{content:"."}
+    66%{content:".."}
+    100%{content:"..."}
+}
+
+/* MOBILE */
+@media(max-width:900px){
+    .hero{flex-direction:column;text-align:center;padding:40px}
+    .hero-left h1{font-size:3.2rem}
+    .hero-buttons{flex-direction:column}
+    .profile{margin-top:40px}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo" onclick="navigateHome()">YAGO</div>
+    <div class="menu">
+        <a onclick="navigate('hakkimda')">Hakkımda</a>
+        <a onclick="navigate('projeler')">Projeler</a>
+        <a onclick="navigate('iletisim')">İletişim</a>
+    </div>
+</nav>
+
+<section class="hero" id="hero">
+    <div class="hero-left">
+        <div class="welcome">Siteye hoşgeldiniz</div>
+        <h1>Yağız Tekin</h1>
+
+        <div class="title">
+            <span id="typing"></span><span class="cursor" id="cursor"></span>
+        </div>
+
+        <div class="hero-buttons">
+            <button onclick="navigate('hakkimda')">Hakkımda</button>
+            <button onclick="navigate('projeler')">Projeler →</button>
+            <button onclick="navigate('iletisim')">İletişim →</button>
+        </div>
+    </div>
+
+    <img src="Profile.png" class="profile">
+</section>
+
+<div class="container" id="content">
+    <div class="card" id="page"></div>
+</div>
+
+<script>
+/* TYPING */
+const text="Software Engineer";
+let i=0;
+function type(){
+    if(i<text.length){
+        typing.textContent+=text[i++];
+        setTimeout(type,90);
+    }else{
+        cursor.style.display="none";
+    }
+}
+type();
+
+/* PAGES */
+const pages={
+    hakkimda:`
+        <h2>Hakkımda</h2>
+        <p>C# ve web geliştirme ile ilgileniyorum. Modern ve temiz arayüzler üretmeyi seviyorum.</p>
+    `,
+    projeler:`
+        <h2>Projeler</h2>
+        <p class="soon">Yakında eklenecek<span class="dots"></span></p>
+    `,
+    iletisim:`
+        <h2>İletişim</h2>
+        <p>
+            Instagram:
+            <a href="https://instagram.com/yagiztkn_" target="_blank" style="color:#4f8cff">
+                @yagiztkn_
+            </a>
+        </p>
+        <p>
+            Gmail:
+            <a href="mailto:yagiz1905tekin@gmail.com" style="color:#4f8cff">
+                yagiz1905tekin@gmail.com
+            </a>
+        </p>
+    `
+};
+
+/* RENDER */
+function renderPage(p){
+    hero.style.display="none";
+    content.style.display="block";
+    page.innerHTML=`<button class="back-btn" onclick="navigateHome()">← Ana Sayfa</button>${pages[p]}`;
+}
+
+function renderHome(){
+    content.style.display="none";
+    hero.style.display="flex";
+}
+
+/* NAV */
+function navigate(p){
+    history.pushState({p},"","#"+p);
+    renderPage(p);
+}
+
+function navigateHome(){
+    history.pushState({home:true},"","#");
+    renderHome();
+}
+
+/* BACK BUTTON */
+window.onpopstate = () => {
+    const h = location.hash.replace("#","");
+    if(h && pages[h]){
+        renderPage(h);
+    } else {
+        renderHome();
+    }
+};
+
+/* LOAD */
+window.onload = () => {
+    const h = location.hash.replace("#","");
+    if(h && pages[h]){
+        renderPage(h);
+    }
+};
+</script>
+
+</body>
+</html>
