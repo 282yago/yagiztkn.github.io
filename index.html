@@ -5,14 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YAGO | Portfolio</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
 :root{
     --text:#fff;
     --bg1:#0b0b0e;
     --bg2:#111118;
-    --card:rgba(26,26,26,.75);
+    --card:rgba(26,26,26,.65);
     --accent:#4f8cff;
 }
 
@@ -42,8 +43,49 @@ nav{
     cursor:pointer;
 }
 
-.menu{display:flex;gap:25px}
-.menu a{cursor:pointer}
+.menu{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.menu a{cursor:pointer;opacity:.8}
+.menu a:hover{opacity:1}
+
+/* LANGUAGE */
+.lang-box{
+    display:flex;
+    gap:6px;
+    padding:6px;
+    border-radius:12px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.25);
+}
+.lang-box span{
+    padding:6px 10px;
+    border-radius:8px;
+    cursor:pointer;
+    opacity:.6;
+    font-size:.85rem;
+}
+.lang-box span.active{
+    background:rgba(255,255,255,.2);
+    opacity:1;
+}
+
+/* HAMBURGER */
+.hamburger{
+    display:none;
+    flex-direction:column;
+    gap:6px;
+    cursor:pointer;
+}
+.hamburger span{
+    width:26px;
+    height:2px;
+    background:#fff;
+}
 
 /* HERO */
 .hero{
@@ -64,7 +106,6 @@ nav{
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     animation:grad 6s linear infinite;
-    filter:drop-shadow(0 0 25px rgba(79,140,255,.45));
 }
 @keyframes grad{to{background-position:200%}}
 
@@ -80,19 +121,23 @@ nav{
 }
 @keyframes blink{50%{opacity:0}}
 
-.hero-buttons{display:flex;gap:25px}
-
-.hero-buttons button,.back-btn{
-    background:none;
-    border:1px solid #fff;
+/* HERO BUTTONS (PC) */
+.hero-buttons{
+    display:flex;
+    gap:20px;
+}
+.hero-buttons button{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.25);
     color:#fff;
     padding:16px 30px;
+    border-radius:14px;
     cursor:pointer;
     transition:.3s;
 }
-.hero-buttons button:hover,.back-btn:hover{
-    background:#fff;
-    color:#000;
+.hero-buttons button:hover{
+    background:rgba(255,255,255,.18);
 }
 
 /* PROFILE */
@@ -114,23 +159,15 @@ nav{
 }
 .card{
     background:var(--card);
-    backdrop-filter:blur(10px);
+    backdrop-filter:blur(12px);
     padding:40px;
-    border-radius:18px;
+    border-radius:20px;
 }
 
 /* PROJECT ANIMATION */
-.soon{
-    font-size:1.2rem;
-    animation:pulse 1.5s infinite;
-}
-.dots::after{
-    content:"";
-    animation:dots 1.6s infinite;
-}
-@keyframes pulse{
-    50%{opacity:.6}
-}
+.soon{animation:pulse 1.5s infinite}
+.dots::after{content:"";animation:dots 1.6s infinite}
+@keyframes pulse{50%{opacity:.6}}
 @keyframes dots{
     0%{content:""}
     33%{content:"."}
@@ -138,11 +175,59 @@ nav{
     100%{content:"..."}
 }
 
+/* CONTACT ICONS */
+.contact-icons{
+    display:flex;
+    gap:30px;
+    margin-top:25px;
+}
+.contact-icons i{
+    font-size:1.8rem;
+    cursor:pointer;
+    transition:.3s;
+}
+.contact-icons i:hover{
+    color:var(--accent);
+    transform:translateY(-4px);
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    background:rgba(0,0,0,.7);
+    backdrop-filter:blur(10px);
+    padding:14px 22px;
+    border-radius:12px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+}
+.toast.show{opacity:1}
+
 /* MOBILE */
 @media(max-width:900px){
-    .hero{flex-direction:column;text-align:center;padding:40px}
-    .hero-left h1{font-size:3.2rem}
-    .hero-buttons{flex-direction:column}
+    nav{padding:20px}
+    .menu{
+        position:fixed;
+        inset:0;
+        background:#0b0b0e;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        display:none;
+    }
+    .menu.active{display:flex}
+    .hamburger{display:flex}
+
+    .hero{
+        flex-direction:column;
+        text-align:center;
+        padding:40px;
+    }
+    .hero-left h1{font-size:3rem}
+    .hero-buttons{display:none}
     .profile{margin-top:40px}
 }
 </style>
@@ -152,26 +237,36 @@ nav{
 
 <nav>
     <div class="logo" onclick="navigateHome()">YAGO</div>
-    <div class="menu">
-        <a onclick="navigate('hakkimda')">Hakkımda</a>
-        <a onclick="navigate('projeler')">Projeler</a>
-        <a onclick="navigate('iletisim')">İletişim</a>
+
+    <div class="menu" id="menu">
+        <a id="navAbout" onclick="navigate('about')">Hakkımda</a>
+        <a id="navProjects" onclick="navigate('projects')">Projeler</a>
+        <a id="navContact" onclick="navigate('contact')">İletişim</a>
+
+        <div class="lang-box">
+            <span id="langTR" class="active" onclick="setLang('tr')">TR</span>
+            <span id="langEN" onclick="setLang('en')">EN</span>
+        </div>
+    </div>
+
+    <div class="hamburger" onclick="menu.classList.toggle('active')">
+        <span></span><span></span><span></span>
     </div>
 </nav>
 
 <section class="hero" id="hero">
     <div class="hero-left">
-        <div class="welcome">Siteye hoşgeldiniz</div>
+        <div class="welcome" id="welcome">Portföyüme hoş geldiniz</div>
         <h1>Yağız Tekin</h1>
 
         <div class="title">
-            <span id="typing"></span><span class="cursor" id="cursor"></span>
+            <span id="typing"></span><span class="cursor"></span>
         </div>
 
         <div class="hero-buttons">
-            <button onclick="navigate('hakkimda')">Hakkımda</button>
-            <button onclick="navigate('projeler')">Projeler →</button>
-            <button onclick="navigate('iletisim')">İletişim →</button>
+            <button onclick="navigate('about')" id="btnAbout">Hakkımda</button>
+            <button onclick="navigate('projects')" id="btnProjects">Projeler</button>
+            <button onclick="navigate('contact')" id="btnContact">İletişim</button>
         </div>
     </div>
 
@@ -182,89 +277,101 @@ nav{
     <div class="card" id="page"></div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
+/* LANGUAGE */
+let lang="tr";
+
 /* TYPING */
 const text="Software Engineer";
-let i=0;
-function type(){
-    if(i<text.length){
-        typing.textContent+=text[i++];
-        setTimeout(type,90);
-    }else{
-        cursor.style.display="none";
-    }
-}
-type();
+let i=0,del=false;
+const typing=document.getElementById("typing");
+(function loop(){
+    if(!del && i<text.length) typing.textContent+=text[i++];
+    else if(del && i>0) typing.textContent=typing.textContent.slice(0,--i);
+    else del=!del;
+    setTimeout(loop,del?60:100);
+})();
 
-/* PAGES */
-const pages={
-    hakkimda:`
-        <h2>Hakkımda</h2>
-        <p>C# ve web geliştirme ile ilgileniyorum. Modern ve temiz arayüzler üretmeyi seviyorum.</p>
-    `,
-    projeler:`
-        <h2>Projeler</h2>
-        <p class="soon">Yakında eklenecek<span class="dots"></span></p>
-    `,
-    iletisim:`
-        <h2>İletişim</h2>
-        <p>
-            Instagram:
-            <a href="https://instagram.com/yagiztkn_" target="_blank" style="color:#4f8cff">
-                @yagiztkn_
-            </a>
-        </p>
-        <p>
-            Gmail:
-            <a href="mailto:yagiz1905tekin@gmail.com" style="color:#4f8cff">
-                yagiz1905tekin@gmail.com
-            </a>
-        </p>
-    `
+/* TEXT DATA */
+const data={
+tr:{
+welcome:"Siteye hoş geldiniz",
+nav:{about:"Hakkımda",projects:"Projeler",contact:"İletişim"},
+about:`<h2>Hakkımda</h2><p>Modern web arayüzleri geliştiriyorum.</p>`,
+projects:`<h2>Projeler</h2><p class="soon">Yakında eklenecek<span class="dots"></span></p>`,
+contact:`
+<h2>İletişim</h2>
+<div class="contact-icons">
+<i class="fa-brands fa-instagram" onclick="openLink('https://instagram.com/yagiztkn_')"></i>
+<i class="fa-brands fa-linkedin" onclick="openLink('https://www.linkedin.com/in/ya%C4%9F%C4%B1z-tekin-b567a4382')"></i>
+<i class="fa-solid fa-envelope" onclick="copyMail()"></i>
+</div>`
+},
+en:{
+welcome:"Welcome to my portfolio",
+nav:{about:"About",projects:"Projects",contact:"Contact"},
+about:`<h2>About</h2><p>I build modern web interfaces.</p>`,
+projects:`<h2>Projects</h2><p class="soon">Coming soon<span class="dots"></span></p>`,
+contact:`
+<h2>Contact</h2>
+<div class="contact-icons">
+<i class="fa-brands fa-instagram" onclick="openLink('https://instagram.com/yagiztkn_')"></i>
+<i class="fa-brands fa-linkedin" onclick="openLink('https://www.linkedin.com/in/ya%C4%9F%C4%B1z-tekin-b567a4382')"></i>
+<i class="fa-solid fa-envelope" onclick="copyMail()"></i>
+</div>`
+}
 };
 
-/* RENDER */
-function renderPage(p){
-    hero.style.display="none";
-    content.style.display="block";
-    page.innerHTML=`<button class="back-btn" onclick="navigateHome()">← Ana Sayfa</button>${pages[p]}`;
-}
+/* LANGUAGE APPLY */
+function setLang(l){
+lang=l;
+langTR.classList.toggle("active",l==="tr");
+langEN.classList.toggle("active",l==="en");
 
-function renderHome(){
-    content.style.display="none";
-    hero.style.display="flex";
+welcome.textContent=data[l].welcome;
+navAbout.textContent=data[l].nav.about;
+navProjects.textContent=data[l].nav.projects;
+navContact.textContent=data[l].nav.contact;
+btnAbout.textContent=data[l].nav.about;
+btnProjects.textContent=data[l].nav.projects;
+btnContact.textContent=data[l].nav.contact;
 }
 
 /* NAV */
 function navigate(p){
-    history.pushState({p},"","#"+p);
-    renderPage(p);
+history.pushState({p},"","#"+p);
+hero.style.display="none";
+content.style.display="block";
+page.innerHTML=`<button onclick="navigateHome()">← Geri</button>`+data[lang][p];
+menu.classList.remove("active");
 }
 
 function navigateHome(){
-    history.pushState({home:true},"","#");
-    renderHome();
+history.pushState({},"","#");
+content.style.display="none";
+hero.style.display="flex";
 }
 
-/* BACK BUTTON */
-window.onpopstate = () => {
-    const h = location.hash.replace("#","");
-    if(h && pages[h]){
-        renderPage(h);
-    } else {
-        renderHome();
-    }
-};
+/* BACK */
+window.onpopstate=()=>navigateHome();
+
+/* HELPERS */
+function openLink(url){window.open(url,"_blank")}
+function copyMail(){
+navigator.clipboard.writeText("yagiz1905tekin@gmail.com");
+showToast("Mail kopyalandı");
+}
+function showToast(t){
+toast.textContent=t;
+toast.classList.add("show");
+setTimeout(()=>toast.classList.remove("show"),2000);
+}
 
 /* LOAD */
-window.onload = () => {
-    const h = location.hash.replace("#","");
-    if(h && pages[h]){
-        renderPage(h);
-    }
-};
+window.onload=()=>setLang("tr");
 </script>
 
 </body>
-
 </html>
